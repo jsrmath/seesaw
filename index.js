@@ -39,9 +39,11 @@ var renderObj = function (key, obj, parent, depth) {
   $(container).appendTo(parent);
 
   // Draw stuff inside container
-  $(container).html("<span>" + key + "</span>");
+  // $(container).html("<span>" + key + "</span>");
+  $(container).html('<div class="panel panel-default zoomTarget">  <div class="panel-heading">  <h3 class="panel-title"> '+key+'</h3>  </div>  <div class="panel-body">  </div>  </div>');
+  $(container).children('div.panel').children('div.panel-body').append(newParent);
 
-  $(newParent).appendTo(container);
+  // $(newParent).appendTo(container);
 
   // Recursively draw contents
   $.each(obj, function (key, val) {
