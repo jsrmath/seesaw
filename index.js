@@ -21,7 +21,7 @@ var renderObj = function (key, obj, parent, depth) {
 
   // The innermost div in the rendering of this object
   // The contents of this object will be drawn inside of here
-  var newParent = document.createElement('div');
+  var newParent;
 
   // Draw things in here
   // This should contain newParent
@@ -39,11 +39,12 @@ var renderObj = function (key, obj, parent, depth) {
   $(container).appendTo(parent);
 
   // Draw stuff inside container
-  // $(container).html("<span>" + key + "</span>");
-  $(container).html('<div class="panel panel-default zoomTarget">  <div class="panel-heading">  <h3 class="panel-title"> '+key+'</h3>  </div>  <div class="panel-body">  </div>  </div>');
-  $(container).children('div.panel').children('div.panel-body').append(newParent);
+  $(container).html('<div class="panel panel-default zoomTarget"><div class="panel-heading"><h3 class="panel-title"></h3></div><div class="panel-body"></div></div>');
+  
+  $(container).find('h3').text(key);
+  $(container).find('div.panel-body').append(newParent);
 
-  // $(newParent).appendTo(container);
+  newParent = $(container).children('div.panel').children('div.panel-body');
 
   // Recursively draw contents
   $.each(obj, function (key, val) {
