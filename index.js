@@ -12,7 +12,7 @@ var renderPill = function (key, value, parent) {
   var pill = document.createElement('div');
   $(pill).appendTo(parent);
 
-  $(pill).html(key + ':' + value);
+  $(pill).html('<div class="btn-group">  <button type="button" class="btn btn-info" id="key">'+key+'</button>  <button type="button" class="btn btn-default" id="value">'+value+'</button> </div>');
 };
 
 var renderObj = function (key, obj, parent, depth) {
@@ -42,7 +42,6 @@ var renderObj = function (key, obj, parent, depth) {
   $(container).html('<div class="panel panel-default zoomTarget"><div class="panel-heading"><h3 class="panel-title"></h3></div><div class="panel-body"></div></div>');
   
   $(container).find('h3').text(key);
-  $(container).find('div.panel-body').append(newParent);
 
   newParent = $(container).children('div.panel').children('div.panel-body');
 
@@ -63,3 +62,5 @@ var renderObj = function (key, obj, parent, depth) {
 var sampleObj = {"foo":"bar","glossary":{"title":"example glossary","GlossDiv":{"title":"S","GlossList":{"GlossEntry":{"ID":"SGML","SortAs":"SGML","GlossTerm":"Standard Generalized Markup Language","Acronym":"SGML","Abbrev":"ISO 8879:1986","GlossDef":{"para":"A meta-markup language, used to create markup languages such as DocBook.","GlossSeeAlso":["GML","XML"]},"GlossSee":"markup"}}}}, baz: "bat"};
 
 renderObj('root', sampleObj, document.body);
+
+// $( "div.panel" ).effect("scale", { percent: 50,origin:'center'}, 100);
