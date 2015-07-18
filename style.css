@@ -10,6 +10,10 @@ button#value{
 }
 
 div.pill {
-	/*float: left;*/
 	display: inline-block !important;
+}
+
+div.container{
+	display: inline-block !important;
+	width: inherit;
 }
