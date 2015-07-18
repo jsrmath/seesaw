@@ -8,3 +8,8 @@ button#value{
 	max-width:80%;
 	text-overflow: ellipsis;
 }
+
+div.pill {
+	/*float: left;*/
+	display: inline-block !important;
+}

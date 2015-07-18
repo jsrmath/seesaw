@@ -10,9 +10,10 @@ var randomColor = function () {
 
 var renderPill = function (key, value, parent) {
   var pill = document.createElement('div');
+  $(pill).addClass('pill');
   $(pill).appendTo(parent);
 
-  $(pill).html('<div class="btn-group">  <button type="button" class="btn btn-info" id="key">'+key+'</button>  <button type="button" class="btn btn-default" id="value">'+value+'</button> </div>');
+  $(pill).html('<div class="btn-group" > <button type="button" class="btn btn-info" id="key" >'+key+'</button>  <button type="button" class="btn btn-default" id="value">'+value+'</button> </div>');
 };
 
 var renderObj = function (key, obj, parent, depth) {
