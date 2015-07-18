@@ -11,9 +11,11 @@ button#value{
 
 div.pill {
 	display: inline-block !important;
+	/*margin-left:10px;*/
 }
 
 div.container{
 	display: inline-block !important;
 	width: inherit;
+	margin-left:-8px;
 }
