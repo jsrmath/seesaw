@@ -2,3 +2,9 @@ div {
   /*border: solid 1px #000;*/
   padding: .25em;
 }
+
+button#value{
+	/*width:80%;*/
+	max-width:80%;
+	text-overflow: ellipsis;
+}
