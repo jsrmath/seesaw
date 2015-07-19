@@ -43,8 +43,9 @@ var renderObj = function (key, obj, parent, depth) {
   // This should contain newParent
   var container = document.createElement('div');
 
-    $(container).addClass('container zoomTarget');
+    $(container).addClass('container');
     $(container).attr('data-closeclick',"true");
+    $(container).attr('data-key', key);
     $(container).attr('data-depth', String(depth+1));
 
   // Create an "each"able function for rendering something
@@ -59,7 +60,7 @@ var renderObj = function (key, obj, parent, depth) {
   $(container).appendTo(parent);    
 
   // Draw stuff inside container
-  $(container).html('<div class="panel panel-default zoomTarget" data-closeclick="true"></div>');
+  $(container).html('<div class="panel panel-default"></div>');
   $(container).children('div.panel').append('<div class="panel-heading"><h3 class="panel-title"></h3></div>');
   $(container).children('div.panel').append('<div class="panel-body"></div>');  
 
@@ -97,19 +98,24 @@ $.each(sample, function (key) {
 $('body').keyup(function (e) {
   switch (e.keyCode) {
     case 37: // left
-      $('.selectedZoomTarget').prev().click();
+      focus.prev().click();
+      // console.log('left');
       break;
     case 39: // right
-      $('.selectedZoomTarget').next().click();
+      focus.next().click();
+      // console.log('right');
       break;
     case 38: // up
-      $('.selectedZoomTarget').closest('.zoomTarget').click();
+      focus.parent().parent().parent().click();
+      // console.log('up');
       break;
     case 40: // down
-      $('.selectedZoomTarget').find('.zoomTarget').first().click();
+      focus.find('.container').first().click();
+      // console.log('down');
       break;
-    case 27: // esc
-      $('#root > .zoomTarget').click();
+    case 16: // shift
+      $('#root > .container').click();
+      // console.log('esc');
       break;
   }
 });
@@ -133,6 +139,7 @@ $('#visualize').click(function (e) {
   assignedColors = {}; // Clear assigned colors
 
   renderObj('root', json, $('#root'), 0);
+
 });
 
 //placeholder
@@ -140,5 +147,20 @@ function renderCrumbs(){
   console.log('rendering crumbs');
 }
 
+var focus = $('#root'); //which element is focused on?
+
 //testing purposes
 renderObj('root', sample['obj3'], $('#root'), 0);
+
+$('.container').click(function(e){
+  e.stopPropagation();
+
+  $(this).zoomTo({
+    root: $('#root'),
+    targetsize:0.75, 
+    duration:600
+  });
+
+  focus = $(this);
+  
+});
