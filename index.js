@@ -73,7 +73,9 @@ $.each(sample, function (key) {
   $('select').append('<option value="' + key + '">' + key + '</option>');
 });
 
-$('#visualize').click(function () {
+$('#visualize').click(function (e) {
+  e.preventDefault(); //refreshes in some browsers due to <form>
+
   var sampleName = $('select').val();
   var json;
 
@@ -81,6 +83,7 @@ $('#visualize').click(function () {
     json = sample[sampleName];
   }
   else {
+    console.log($.parseJSON($('#input').val()));
     json = $.parseJSON($('#input').val());
   }
 
@@ -88,4 +91,5 @@ $('#visualize').click(function () {
   $('select').val(''); // Clear dropdown
 
   renderObj('root', json, $('.root'));
+
 });
