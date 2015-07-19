@@ -11,41 +11,42 @@
   <title>JSON Visualizer</title>
 </head>
 
-<header>
+<header style='margin:10px;'>
 
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-        
-        <a class="navbar-brand" href="#">JSON Visualizer</a>
+  <h2>JSON Visualizer</h2>
 
-<!--            <button type="button" class="btn btn-default btn-lg">
-          <span class="glyphicon glyphicon-book" aria-hidden="true"></span> 
-          Stack Arrays
-        </button>
-            <button type="button" class="btn btn-default btn-lg">
-          <span class="glyphicon glyphicon-th" aria-hidden="true"></span> 
-          Splay Arrays
-        </button> -->
+	<form class="navbar-form">
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="Paste JSON here" id="input">
+		</div>
+		or
+		<select class='form-control' id="samples">
+			<option value="">Try an Example</option>
+		</select>
+		<button class="btn btn-primary" id='visualize'>Visualize</button>
+	</form>
 
-      <form class="navbar-form navbar-right">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Paste JSON here" id="input">
-        </div>
-        or
-        <select class='form-control' id="samples">
-          <option value="">Try an Example</option>
-        </select>
-        <button class="btn btn-primary" id='visualize'>Visualize</button>
-      </form>
-
-      </div>
-  </nav>
-
+	<br/>
 </header>
 
 <body>
-  <div class="root" data-depth="0"></div>
+	<div class="zoomViewport" id='port'>
+	    <div class="zoomContainer" id='root' data-depth="0">
+
+	    </div>
+	</div>
 </body>
+
+<footer>
+<!-- 	<div>
+		<ol class="breadcrumb">
+		  <li><a href="#">Home</a></li>
+		  <li><a href="#">Library</a></li>
+		  <li class="active">Data</li>
+		</ol>
+	</div> -->
+	press <kbd>&#8592;</kbd>, <kbd>&#8593;</kbd>, <kbd>&#8594;</kbd>, <kbd>&#8595;</kbd>, and <kbd>esc</kbd> to navigate
+</footer>
 
 <script type="text/javascript" src="sample.js"></script>
 <script type="text/javascript" src="index.js"></script>

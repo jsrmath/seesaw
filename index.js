@@ -19,9 +19,15 @@ var getColor = function (key) {
   return assignedColors[key];
 };
 
-var renderPill = function (key, value, parent) {
+var renderPill = function (key, value, parent, depth) {
   var pill = document.createElement('div');
+  $(pill).addClass('pill');
+  $(pill).attr('data-depth', String(depth+1));
+  $(pill).appendTo(parent.find('.pills'));
 
+  $(pill).html('<div class="btn-group" > <button type="button" class="btn btn-info key" ></button>  <button type="button" class="btn btn-default value"></button> </div>');
+  $(pill).find('.key').text(key);
+  $(pill).find('.value').text(value);
   $(pill).addClass('pill');
   $(pill).appendTo(parent.find('.pills'));
 
@@ -44,7 +50,9 @@ var renderObj = function (key, obj, parent, depth) {
   // This should contain newParent
   var container = document.createElement('div');
 
-  $(container).addClass('container');
+    $(container).addClass('container zoomTarget');
+    $(container).attr('data-closeclick',"true");
+    $(container).attr('data-depth', String(depth+1));
 
   // Create an "each"able function for rendering something
   var renderer = function (func) {
@@ -94,6 +102,27 @@ $.each(sample, function (key) {
   $('select').append('<option value="' + key + '">' + key + '</option>');
 });
 
+//when a keystroke is triggered, navigate the tree
+$("body").keyup(function(e) {
+  if(e.keyCode == 37) { // left
+    console.log('left');
+    $('.selectedZoomTarget').prev().click();
+  } else if(e.keyCode == 39) { // right
+    console.log('right');
+    $('.selectedZoomTarget').next().click();
+  } else if (e.keyCode == 38){ // up
+    console.log('up');
+    $('.selectedZoomTarget').closest('.zoomTarget').click();
+  } else if (e.keyCode == 40) { //down
+    console.log('down');    
+    $('.selectedZoomTarget').find('.zoomTarget').first().click();
+  } else if (e.keyCode == 27) { //esc
+    console.log('esc');
+    $('#root > .zoomTarget').click();
+  }
+});
+
+//when #visualize is clicked, write to $('#root') .
 $('#visualize').click(function (e) {
   e.preventDefault(); //refreshes in some browsers due to <form>
 
@@ -108,11 +137,16 @@ $('#visualize').click(function (e) {
     json = $.parseJSON($('#input').val());
   }
 
-  $('.root').html(''); // Clear current visualization
+  $('.root').empty(); // Clear current visualization
   $('select').val(''); // Clear dropdown
-  colorIndex = -1; // Reset color index
-  assignedColors = {}; // Clear assigned colors
 
-  renderObj('root', json, $('.root'));
-
+  renderObj('root', json, $('#root'), 0);
 });
+
+//placeholder
+function renderCrumbs(){
+  console.log('rendering crumbs');
+}
+
+//testing purposes
+renderObj('root', sample['obj3'], $('#root'), 0);
