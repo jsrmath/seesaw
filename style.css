@@ -70,7 +70,9 @@ footer {
   bottom:0px; left:0px; /*for instructions*/
   z-index:5;
 }
-
+.pill button:hover{
+  color:inherit; background: inherit;
+}
 #port {
   /*background: white;*/
   background: none;
@@ -80,5 +82,5 @@ footer {
 }
 
 .dropShadow{
-  box-shadow: 0px 0px 10px 5px blue;
+  box-shadow: 0px 0px 5px 5px lightblue;
 }
