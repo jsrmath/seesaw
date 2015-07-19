@@ -1,31 +1,74 @@
-
+html{
+  /*background: #eee;*/
+}
+body{
+  margin-top:75px;
+  /*background: #eee;*/
+}
 div {
+  /*border: solid 1px #000;*/
   padding: .25em;
 }
 
-button.value{
+button#value{
   /*width:80%;*/
   max-width:80%;
   text-overflow: ellipsis;
 }
 
-button.key {
-  color: white;
-}
-
 div.pills {
-  display: block;
+  display: inline-block;
   vertical-align:top;
 }
 
-div.pills.inline-block div.pill {
+div.pill {
   display: inline-block !important;
-  margin-right:10px;
+  /*margin-left:10px;*/
 }
 
 div.container{
   display: inline-block !important;
   width: inherit;
-  margin-left:-8px;
+  margin-left:6px;
 }
 
+div.panel-body{
+  padding:1px;
+}
+div.container{
+  padding:5px;
+}
+
+header{
+  position: fixed;
+  width:100%;
+  padding-right:20px;
+  top:0px; left:0px;
+  z-index:5;
+  background: white;
+}
+
+header form{
+  float:right;
+}
+
+header h2{
+  margin-top:15px;
+  float: left;
+}
+
+footer{
+  position: fixed;
+  width:100%;
+  padding:10px;
+  /*bottom:-20px; left:0px;*/ /*for breadcrumbs*/
+  bottom:0px; left:0px; /*for instructions*/
+  z-index:5;
+}
+
+#port{
+  background: white;
+  max-height:570px;
+  overflow: scroll;
+  /*border: 2px solid grey;*/
+}

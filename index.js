@@ -19,17 +19,16 @@ var getColor = function (key) {
   return assignedColors[key];
 };
 
-var renderPill = function (key, value, parent) {
+var renderPill = function (key, value, parent, depth) {
   var pill = document.createElement('div');
-
   $(pill).addClass('pill');
-  $(pill).appendTo(parent.find('.pills'));
+  $(pill).attr('data-depth', String(depth+1));
 
-  $(pill).html('<div class="btn-group"> <button type="button" class="btn key"></button>  <button type="button" class="btn btn-default value"></button> </div>');
-  $(pill).find('.key').text(key);
+  $(pill).html('<div class="btn-group" > <button type="button" class="btn btn-info key" ></button>  <button type="button" class="btn btn-default value"></button> </div>');
+  $(pill).find('.key').text(key).css('background-color', getColor(key));
   $(pill).find('.value').text(value);
 
-  $(pill).find('.key').css('background-color', getColor(key));
+  $(pill).appendTo(parent.find('.pills'));
 };
 
 var renderObj = function (key, obj, parent, depth) {
@@ -44,7 +43,9 @@ var renderObj = function (key, obj, parent, depth) {
   // This should contain newParent
   var container = document.createElement('div');
 
-  $(container).addClass('container');
+    $(container).addClass('container zoomTarget');
+    $(container).attr('data-closeclick',"true");
+    $(container).attr('data-depth', String(depth+1));
 
   // Create an "each"able function for rendering something
   var renderer = function (func) {
@@ -94,6 +95,28 @@ $.each(sample, function (key) {
   $('select').append('<option value="' + key + '">' + key + '</option>');
 });
 
+//when a keystroke is triggered, navigate the tree
+$('body').keyup(function (e) {
+  switch (e.keyCode) {
+    case 37: // left
+      $('.selectedZoomTarget').prev().click();
+      break;
+    case 39: // right
+      $('.selectedZoomTarget').next().click();
+      break;
+    case 38: // up
+      $('.selectedZoomTarget').closest('.zoomTarget').click();
+      break;
+    case 40: // down
+      $('.selectedZoomTarget').find('.zoomTarget').first().click();
+      break;
+    case 27: // esc
+      $('#root > .zoomTarget').click();
+      break;
+  }
+});
+
+//when #visualize is clicked, write to $('#root') .
 $('#visualize').click(function (e) {
   e.preventDefault(); //refreshes in some browsers due to <form>
 
@@ -108,11 +131,16 @@ $('#visualize').click(function (e) {
     json = $.parseJSON($('#input').val());
   }
 
-  $('.root').html(''); // Clear current visualization
+  $('.root').empty(); // Clear current visualization
   $('select').val(''); // Clear dropdown
-  colorIndex = -1; // Reset color index
-  assignedColors = {}; // Clear assigned colors
 
-  renderObj('root', json, $('.root'));
-
+  renderObj('root', json, $('#root'), 0);
 });
+
+//placeholder
+function renderCrumbs(){
+  console.log('rendering crumbs');
+}
+
+//testing purposes
+renderObj('root', sample['obj3'], $('#root'), 0);
