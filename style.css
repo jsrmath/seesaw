@@ -4,9 +4,9 @@ div {
 }
 
 button.value{
-	/*width:80%;*/
-	max-width:80%;
-	text-overflow: ellipsis;
+  /*width:80%;*/
+  max-width:80%;
+  text-overflow: ellipsis;
 }
 
 button.key {
@@ -14,18 +14,18 @@ button.key {
 }
 
 div.pills {
-	display: block;
-    vertical-align:top;
+  display: block;
+  vertical-align:top;
 }
 
 div.pills.inline-block div.pill {
-	display: inline-block !important;
-	margin-right:10px;
+  display: inline-block !important;
+  margin-right:10px;
 }
 
 div.container{
-	display: inline-block !important;
-	width: inherit;
-	margin-left:-8px;
+  display: inline-block !important;
+  width: inherit;
+  margin-left:-8px;
 }
 
