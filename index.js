@@ -145,7 +145,7 @@ $('#visualize').click(function (e) {
 var focus = $('#root'); //which element is focused on?
 
 //testing purposes
-renderObj('root', sample['obj3'], $('#root'), 0);
+renderObj('root', sample, $('#root'), 0);
 bindFocus();
 
 function bindFocus(){
@@ -160,13 +160,13 @@ function bindFocus(){
       duration:600
     });
 
+    $(focus).find('.panel').first().css('box-shadow', 'none');
+
     focus = $(this);
 
+    $(focus).find('.panel').first().css('box-shadow', String('0px 0px 5px 5px '+getColor(getKey(focus))));
+
     var cr = makeCrumbs($(this));
-
-    $('.panel').removeClass('dropShadow');
-    $(this).find('.panel').first().addClass('dropShadow');
-
     renderCrumbs(cr);
   });
 
