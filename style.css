@@ -1,6 +1,7 @@
 html {
 }
 body {
+  height:89%;
   margin-top:75px;
   /*background: #eee;*/
 }
@@ -19,6 +20,9 @@ div.pills {
   display: block;
   vertical-align:top;
 }
+div.boxes{
+  height:100%;
+}
 
 div.pills.inline-block div.pill {
   display: inline-block !important;
@@ -34,14 +38,23 @@ div.container {
 div.panel-body {
   padding:1px;
   background: none;
+  overflow: scroll;
+  max-height:100%;
 }
 div.panel, div.panel-heading, div.panel-title{
   background-color: none !important;
   background: none;
 }
 
+.panel > .panel-heading {
+  border:none;
+  background-color: white !important;
+  border-color: white !important;
+}
+
 div.container {
   padding:5px;
+  vertical-align:top;
 }
 
 header {
@@ -70,17 +83,32 @@ footer {
   bottom:0px; left:0px; /*for instructions*/
   z-index:5;
 }
-.pill button:hover{
-  color:inherit; background: inherit;
+.pill button.key:hover{
+  color:white;
+  border:none;
+}
+.pill button.key{
+  border:none;
+}
+.pill button.value:hover{
+  color:black;
+  background: #eee;
+  border: none;
+}
+.pill button.value{
+  background: #eee;
+  border:none;
 }
 #port {
   /*background: white;*/
-  background: none;
-  max-height:570px;
-  overflow: scroll;
+  /*height:100%;*/
+  min-height:95%;
+  /*max-height:100%;*/
+  overflow: auto;
+  /*max-height:570px;*/
+  /*overflow: scroll;*/
   /*border: 2px solid grey;*/
 }
 
 .dropShadow{
-  box-shadow: 0px 0px 5px 5px lightblue;
 }
