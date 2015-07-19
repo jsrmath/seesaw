@@ -1,7 +1,7 @@
-html{
+html {
   /*background: #eee;*/
 }
-body{
+body {
   margin-top:75px;
   /*background: #eee;*/
 }
@@ -10,7 +10,7 @@ div {
   padding: .25em;
 }
 
-button#value{
+button#value {
   /*width:80%;*/
   max-width:80%;
   text-overflow: ellipsis;
@@ -26,20 +26,21 @@ div.pills.inline-block div.pill {
   margin-right:10px;
 }
 
-div.container{
+div.container {
   display: inline-block !important;
   width: inherit;
   margin-left:6px;
 }
 
-div.panel-body{
+div.panel-body {
   padding:1px;
 }
-div.container{
+
+div.container {
   padding:5px;
 }
 
-header{
+header {
   position: fixed;
   width:100%;
   padding-right:20px;
@@ -48,16 +49,16 @@ header{
   background: white;
 }
 
-header form{
+header form {
   float:right;
 }
 
-header h2{
+header h2 {
   margin-top:15px;
   float: left;
 }
 
-footer{
+footer {
   position: fixed;
   width:100%;
   padding:10px;
@@ -66,7 +67,7 @@ footer{
   z-index:5;
 }
 
-#port{
+#port {
   background: white;
   max-height:570px;
   overflow: scroll;
