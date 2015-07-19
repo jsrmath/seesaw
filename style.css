@@ -11,13 +11,13 @@ button#value{
 }
 
 div.pills {
-	display: inline-block;
+	display: block;
     vertical-align:top;
 }
 
-div.pill {
-	/*display: inline-block !important;*/
-	/*margin-left:10px;*/
+div.pills.inline-block div.pill {
+	display: inline-block !important;
+	margin-right:10px;
 }
 
 div.container{

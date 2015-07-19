@@ -66,6 +66,12 @@ var renderObj = function (key, obj, parent, depth) {
 
   $.each(pills, renderer(renderPill));
   $.each(objs, renderer(renderObj));
+
+  // Make pills inline-block iff there are objects in the same box
+  if (objs.length) {
+    console.log(objs);
+    $(newParent).children('.pills').addClass('inline-block');
+  }
 };
 
 // Add sample elements to dropdown
