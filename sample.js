@@ -1,5 +1,5 @@
 var sample = {
-  'obj0': {
+  "obj0": {
     "foo": "bar",
     "glossary": {
       "title": "example glossary",
@@ -7,10 +7,9 @@ var sample = {
         "title": "S"
       }
     },
-    'baz': "bat"
+    "baz": "bat"
   },
-
-  'obj1': {
+  "obj1": {
     "foo": "bar",
     "glossary": {
       "title": "example glossary",
@@ -32,10 +31,9 @@ var sample = {
         }
       }
     },
-    'baz': "bat"
+    "baz": "bat"
   },
-
-  'obj2': {
+  "obj2": {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "Product set",
     "type": "array",
@@ -86,8 +84,7 @@ var sample = {
       "required": ["id", "name", "price"]
     }
   },
-
-  'obj3': [{
+  "obj3": [{
     "id": "0001",
     "type": "donut",
     "name": "Cake",
