@@ -120,16 +120,14 @@ $('#visualize').click(function (e) {
 
   var sampleName = $('select').val();
   var json;
-
   if (sampleName) {
     json = sample[sampleName];
   }
   else {
-    console.log($.parseJSON($('#input').val()));
     json = $.parseJSON($('#input').val());
   }
 
-  $('.root').empty(); // Clear current visualization
+  $('#root').empty(); // Clear current visualization
   $('select').val(''); // Clear dropdown
   colorIndex = -1; // Reset color index
   assignedColors = {}; // Clear assigned colors
