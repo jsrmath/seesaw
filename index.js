@@ -11,7 +11,7 @@ var randomColor = function () {
 var renderPill = function (key, value, parent) {
   var pill = document.createElement('div');
   $(pill).addClass('pill');
-  $(pill).appendTo(parent);
+  $(pill).appendTo(parent.find('.pills'));
 
   $(pill).html('<div class="btn-group" > <button type="button" class="btn btn-info" id="key" >'+key+'</button>  <button type="button" class="btn btn-default" id="value">'+value+'</button> </div>');
 };
@@ -38,15 +38,20 @@ var renderObj = function (key, obj, parent, depth) {
     };
   };
 
-  $(container).appendTo(parent);
+  
+  $(container).appendTo(parent);    
 
   // Draw stuff inside container
-  $(container).html('<div class="panel panel-default zoomTarget"><div class="panel-heading"><h3 class="panel-title"></h3></div><div class="panel-body"></div></div>');
+  $(container).html('<div class="panel panel-default zoomTarget" data-closeclick="true"></div>');
+    $(container).children('div.panel').append('<div class="panel-heading"><h3 class="panel-title"></h3></div>');
+      $(container).find('h3').text(key);
+    $(container).children('div.panel').append('<div class="panel-body"></div>');  
+
+  newParent = $(container).find('div.panel-body');
   
-  $(container).find('h3').text(key);
+  $(newParent).html('<div class="pills"></div>')
 
-  newParent = $(container).children('div.panel').children('div.panel-body');
-
+  
   // Recursively draw contents
   $.each(obj, function (key, val) {
     if (val && typeof val === 'object') { // Object and not null
@@ -61,7 +66,10 @@ var renderObj = function (key, obj, parent, depth) {
   $.each(objs, renderer(renderObj));
 };
 
-var sampleObj = {"foo":"bar","glossary":{"title":"example glossary","GlossDiv":{"title":"S","GlossList":{"GlossEntry":{"ID":"SGML","SortAs":"SGML","GlossTerm":"Standard Generalized Markup Language","Acronym":"SGML","Abbrev":"ISO 8879:1986","GlossDef":{"para":"A meta-markup language, used to create markup languages such as DocBook.","GlossSeeAlso":["GML","XML"]},"GlossSee":"markup"}}}}, baz: "bat"};
+var obj0 = {"foo":"bar","glossary":{"title":"example glossary","GlossDiv":{"title":"S"}}, baz: "bat"};
+
+var obj1 = {"foo":"bar","glossary":{"title":"example glossary","GlossDiv":{"title":"S","GlossList":{"GlossEntry":{"ID":"SGML","SortAs":"SGML","GlossTerm":"Standard Generalized Markup Language","Acronym":"SGML","Abbrev":"ISO 8879:1986","GlossDef":{"para":"A meta-markup language, used to create markup languages such as DocBook.","GlossSeeAlso":["GML","XML"]},"GlossSee":"markup"}}}}, baz: "bat"};
+
 var obj2 = {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "Product set",
@@ -107,6 +115,7 @@ var obj2 = {
         "required": ["id", "name", "price"]
     }
 };
+
 var obj3 = [
   {
     "id": "0001",
@@ -177,6 +186,5 @@ var obj3 = [
       ]
   }
 ];
-renderObj('root', obj3, document.body);
 
-// $( "div.panel" ).effect("scale", { percent: 50,origin:'center'}, 100);
+renderObj('root', obj3, document.body);

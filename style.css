@@ -1,3 +1,4 @@
+
 div {
   /*border: solid 1px #000;*/
   padding: .25em;
@@ -9,8 +10,13 @@ button#value{
 	text-overflow: ellipsis;
 }
 
+div.pills {
+	display: inline-block;
+    vertical-align:top;
+}
+
 div.pill {
-	display: inline-block !important;
+	/*display: inline-block !important;*/
 	/*margin-left:10px;*/
 }
 
@@ -19,3 +25,4 @@ div.container{
 	width: inherit;
 	margin-left:-8px;
 }
+
