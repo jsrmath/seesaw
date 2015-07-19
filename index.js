@@ -23,19 +23,12 @@ var renderPill = function (key, value, parent, depth) {
   var pill = document.createElement('div');
   $(pill).addClass('pill');
   $(pill).attr('data-depth', String(depth+1));
-  $(pill).appendTo(parent.find('.pills'));
 
   $(pill).html('<div class="btn-group" > <button type="button" class="btn btn-info key" ></button>  <button type="button" class="btn btn-default value"></button> </div>');
-  $(pill).find('.key').text(key);
+  $(pill).find('.key').text(key).css('background-color', getColor(key));
   $(pill).find('.value').text(value);
-  $(pill).addClass('pill');
+
   $(pill).appendTo(parent.find('.pills'));
-
-  $(pill).html('<div class="btn-group"> <button type="button" class="btn key"></button>  <button type="button" class="btn btn-default value"></button> </div>');
-  $(pill).find('.key').text(key);
-  $(pill).find('.value').text(value);
-
-  $(pill).find('.key').css('background-color', getColor(key));
 };
 
 var renderObj = function (key, obj, parent, depth) {
@@ -103,22 +96,23 @@ $.each(sample, function (key) {
 });
 
 //when a keystroke is triggered, navigate the tree
-$("body").keyup(function(e) {
-  if(e.keyCode == 37) { // left
-    console.log('left');
-    $('.selectedZoomTarget').prev().click();
-  } else if(e.keyCode == 39) { // right
-    console.log('right');
-    $('.selectedZoomTarget').next().click();
-  } else if (e.keyCode == 38){ // up
-    console.log('up');
-    $('.selectedZoomTarget').closest('.zoomTarget').click();
-  } else if (e.keyCode == 40) { //down
-    console.log('down');    
-    $('.selectedZoomTarget').find('.zoomTarget').first().click();
-  } else if (e.keyCode == 27) { //esc
-    console.log('esc');
-    $('#root > .zoomTarget').click();
+$('body').keyup(function (e) {
+  switch (e.keyCode) {
+    case 37: // left
+      $('.selectedZoomTarget').prev().click();
+      break;
+    case 39: // right
+      $('.selectedZoomTarget').next().click();
+      break;
+    case 38: // up
+      $('.selectedZoomTarget').closest('.zoomTarget').click();
+      break;
+    case 40: // down
+      $('.selectedZoomTarget').find('.zoomTarget').first().click();
+      break;
+    case 27: // esc
+      $('#root > .zoomTarget').click();
+      break;
   }
 });
 
