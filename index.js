@@ -2,20 +2,34 @@
 // Backend for json-visualizer
 // Dependencies: jquery
 
-var colors = ['#FF5252', '#C2185B', '#536DFE', '#512DA8', '#1976D2', '#03A9F4', '#0097A7', '#009688', '#388E3C', '#FFA000', '#FF9800', '#E64A19', '#795548', '#616161', '#607D8B'];
+var colors = ['#616161', '#FF9800', '#03A9F4', '#0097A7', '#FF5252', '#512DA8', '#388E3C', '#607D8B', '#E64A19', '#C2185B', '#1976D2', '#009688', '#795548', '#536DFE']
+var colorIndex = -1;
 
-var randomColor = function () {
-  return colors[Math.floor(Math.random() * colors.length)];
+// Keep track of which colors have been assigned to which keys
+var assignedColors = {};
+
+var getColor = function (key) {
+  if (!assignedColors[key]) {
+    colorIndex += 1;
+    if (colorIndex === colors.length) colorIndex = -1;
+
+    assignedColors[key] = colors[colorIndex];
+  }
+
+  return assignedColors[key];
 };
 
 var renderPill = function (key, value, parent) {
   var pill = document.createElement('div');
+
   $(pill).addClass('pill');
   $(pill).appendTo(parent.find('.pills'));
 
-  $(pill).html('<div class="btn-group" > <button type="button" class="btn btn-info key" ></button>  <button type="button" class="btn btn-default value"></button> </div>');
+  $(pill).html('<div class="btn-group"> <button type="button" class="btn key"></button>  <button type="button" class="btn btn-default value"></button> </div>');
   $(pill).find('.key').text(key);
   $(pill).find('.value').text(value);
+
+  $(pill).find('.key').css('background-color', getColor(key));
 };
 
 var renderObj = function (key, obj, parent, depth) {
@@ -49,9 +63,11 @@ var renderObj = function (key, obj, parent, depth) {
   $(container).children('div.panel').append('<div class="panel-body"></div>');  
 
   $(container).find('h3').text(key);
+  $(container).find('.panel').css('border-color', getColor(key));
 
   newParent = $(container).find('div.panel-body');
   $(newParent).html('<div class="pills"></div>')
+
 
   
   // Recursively draw contents
@@ -69,7 +85,6 @@ var renderObj = function (key, obj, parent, depth) {
 
   // Make pills inline-block iff there are objects in the same box
   if (objs.length) {
-    console.log(objs);
     $(newParent).children('.pills').addClass('inline-block');
   }
 };
@@ -95,6 +110,8 @@ $('#visualize').click(function (e) {
 
   $('.root').html(''); // Clear current visualization
   $('select').val(''); // Clear dropdown
+  colorIndex = -1; // Reset color index
+  assignedColors = {}; // Clear assigned colors
 
   renderObj('root', json, $('.root'));
 
