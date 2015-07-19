@@ -68,8 +68,6 @@ var renderObj = function (key, obj, parent, depth) {
 
   newParent = $(container).find('div.panel-body');
   $(newParent).html('<div class="pills"></div>')
-
-
   
   // Recursively draw contents
   $.each(obj, function (key, val) {
@@ -133,6 +131,8 @@ $('#visualize').click(function (e) {
 
   $('.root').empty(); // Clear current visualization
   $('select').val(''); // Clear dropdown
+  colorIndex = -1; // Reset color index
+  assignedColors = {}; // Clear assigned colors
 
   renderObj('root', json, $('#root'), 0);
 });
