@@ -54,37 +54,40 @@ var renderObj = function (key, obj, parent, depth) {
   var container = document.createElement('div');
 
   //init container
-    $(container).addClass('container');
-  //add data attributes
-    $(container).attr('data-closeclick',"true");
-    $(container).attr('data-key', key);
-    $(container).attr('data-depth', String(depth+1));
-  //add it to the parent
-    $(parent).children('.boxes').append( $(container) );
-  // draw its contents
-    $(container).html(
-      '<div class="panel panel-default"></div>'
-    );
-    $(container).children('div.panel').append(
-      '<div class="panel-heading"><h3 class="panel-title"></h3></div>'
-    );
-    $(container).children('div.panel').append(
-      '<div class="panel-body"></div>'
-    );
-    $(container).find('.panel-body').first().append('<div class="pills"></div>')
-    $(container).find('.panel-body').first().append('<div class="boxes"></div>')
+  $(container).addClass('container');
 
-    //create newParent for next level of depth
-    newParent = $(container).find('div.panel-body');
+  //add data attributes
+  $(container).attr('data-closeclick',"true");
+  $(container).attr('data-key', key);
+  $(container).attr('data-depth', String(depth+1));
+
+  //add it to the parent
+  $(parent).children('.boxes').append( $(container) );
+
+  // draw its contents
+  $(container).html(
+    '<div class="panel panel-default"></div>'
+  );
+  $(container).children('div.panel').append(
+    '<div class="panel-heading"><h3 class="panel-title"></h3></div>'
+  );
+  $(container).children('div.panel').append(
+    '<div class="panel-body"></div>'
+  );
+
+  //declare sub-.panel-body classes
+  $(container).find('.panel-body').first().append('<div class="pills"></div>')
+  $(container).find('.panel-body').first().append('<div class="boxes"></div>')
+
+  //create newParent for next level of depth
+  newParent = $(container).find('div.panel-body');
 
   //insert key
-    $(container).find('h3').text(key);
-  //style appropriately
-    $(container).find('.panel').css('border-color', getColor(key));
-  //declare pills class for insertion
-
-  //===================
+  $(container).find('h3').text(key);
   
+  //style appropriately
+  $(container).find('.panel').css('border-color', getColor(key));
+
   // Recursively draw contents
   $.each(obj, function (key, val) {
     if (val && typeof val === 'object') { // Object and not null
@@ -95,8 +98,8 @@ var renderObj = function (key, obj, parent, depth) {
     }
   });
 
+  //recursively render contents
   $.each(pills, renderer(renderPill));
-
   $.each(objs, renderer(renderObj));
 
   // Make pills inline-block iff there are objects in the same box
@@ -150,12 +153,12 @@ $('#visualize').click(function (e) {
     json = $.parseJSON($('#input').val());
   }
 
-  $('#root').empty(); // Clear current visualization
+  $('#root .boxes').empty(); // Clear current visualization
   $('select').val(''); // Clear dropdown
   colorIndex = -1; // Reset color index
   assignedColors = {}; // Clear assigned colors
 
-  renderObj('root', json, 1, $('#root'), 0);
+  renderObj('root', json, $('#root'), 0);
   bindFocus();
 });
 
@@ -163,7 +166,7 @@ var focus = $('#root'); //which element is focused on?
 
 //testing purposes
 $('#root').height($('#port').height());
-$('#root').width( $('#port').width() );
+$('#root').width($('#port').width());
 renderObj('root', sample['obj3'], $('#root'), 0);
 
 bindFocus();
