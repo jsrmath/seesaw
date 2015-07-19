@@ -10,10 +10,29 @@ div {
   padding: .25em;
 }
 
-button#value {
-  /*width:80%;*/
+div.pill {
+  position: relative;
+  float: left;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  border-radius: 4px;
+}
+
+div.pill.key {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  color: white;
+  padding: 6px 12px;
+}
+
+div.pill.value {
   max-width:80%;
   text-overflow: ellipsis;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border: solid 1px #ccc;
+  padding: 5px 12px;
 }
 
 div.pills {
@@ -26,6 +45,9 @@ div.boxes{
 
 div.pills.inline-block div.pill {
   display: inline-block !important;
+}
+
+div.pills.inline-block div.pill.value {
   margin-right:10px;
 }
 

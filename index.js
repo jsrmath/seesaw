@@ -24,7 +24,7 @@ var renderPill = function (key, value, parent, depth) {
   $(pill).addClass('pill');
   $(pill).attr('data-depth', String(depth+1));
 
-  $(pill).html('<div class="btn-group" > <button type="button" class="btn btn-info key" ></button>  <button type="button" class="btn btn-default value"></button> </div>');
+  $(pill).html('<div class="pill-group"><div class="pill key"></div><div class="pill value"></div></div>');
   $(pill).find('.key').text(key).css('background-color', getColor(key));
   $(pill).find('.value').text(value);
 
