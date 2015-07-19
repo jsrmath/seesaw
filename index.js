@@ -139,29 +139,40 @@ $('#visualize').click(function (e) {
   assignedColors = {}; // Clear assigned colors
 
   renderObj('root', json, $('#root'), 0);
-
+  bindFocus();
 });
 
 var focus = $('#root'); //which element is focused on?
 
 //testing purposes
 renderObj('root', sample['obj3'], $('#root'), 0);
+bindFocus();
 
-$('.container').click(function(e){
-  e.stopPropagation();
+function bindFocus(){
+  //focus on a container
+  $('.container').unbind();
+  $('.container').click(function(e){
+    e.stopPropagation();
 
+    $(this).zoomTo({
+      root: $('#root'),
+      targetsize:0.75, 
+      duration:600
+    });
 
-  $(this).zoomTo({
-    root: $('#root'),
-    targetsize:0.75, 
-    duration:600
+    focus = $(this);
+
+    var cr = makeCrumbs($(this));
+
+    $('.panel').removeClass('dropShadow');
+    $(this).find('.panel').first().addClass('dropShadow');
+
+    renderCrumbs(cr);
   });
 
-  focus = $(this);
+}
 
-  var cr = makeCrumbs($(this));  
-  renderCrumbs(cr);
-});
+
 
 function getKey(el){
   // console.log(el);
