@@ -147,9 +147,9 @@ var focus = $('#root'); //which element is focused on?
 //testing purposes
 renderObj('root', sample['obj3'], $('#root'), 0);
 
+//focus on a container
 $('.container').click(function(e){
   e.stopPropagation();
-
 
   $(this).zoomTo({
     root: $('#root'),
@@ -159,7 +159,11 @@ $('.container').click(function(e){
 
   focus = $(this);
 
-  var cr = makeCrumbs($(this));  
+  var cr = makeCrumbs($(this));
+
+  $('.panel').removeClass('dropShadow');
+  $(this).find('.panel').first().addClass('dropShadow');
+
   renderCrumbs(cr);
 });
 

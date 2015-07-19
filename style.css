@@ -1,5 +1,4 @@
 html {
-  /*background: #eee;*/
 }
 body {
   margin-top:75px;
@@ -34,6 +33,11 @@ div.container {
 
 div.panel-body {
   padding:1px;
+  background: none;
+}
+div.panel, div.panel-heading, div.panel-title{
+  background-color: none !important;
+  background: none;
 }
 
 div.container {
@@ -68,8 +72,13 @@ footer {
 }
 
 #port {
-  background: white;
+  /*background: white;*/
+  background: none;
   max-height:570px;
   overflow: scroll;
   /*border: 2px solid grey;*/
+}
+
+.dropShadow{
+  box-shadow: 0px 0px 10px 5px blue;
 }
