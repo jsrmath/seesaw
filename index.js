@@ -39,15 +39,6 @@ var renderObj = function (key, obj, parent, depth) {
   // The contents of this object will be drawn inside of here
   var newParent;
 
-  // Draw things in here
-  // This should contain newParent
-  var container = document.createElement('div');
-
-    $(container).addClass('container');
-    $(container).attr('data-closeclick',"true");
-    $(container).attr('data-key', key);
-    $(container).attr('data-depth', String(depth+1));
-
   // Create an "each"able function for rendering something
   var renderer = function (func) {
     return function (i, e) {
@@ -56,19 +47,43 @@ var renderObj = function (key, obj, parent, depth) {
     };
   };
 
-  
-  $(container).appendTo(parent);    
+  //===================
 
-  // Draw stuff inside container
-  $(container).html('<div class="panel panel-default"></div>');
-  $(container).children('div.panel').append('<div class="panel-heading"><h3 class="panel-title"></h3></div>');
-  $(container).children('div.panel').append('<div class="panel-body"></div>');  
+  // Draw things in here
+  // This should contain newParent
+  var container = document.createElement('div');
 
-  $(container).find('h3').text(key);
-  $(container).find('.panel').css('border-color', getColor(key));
+  //init container
+    $(container).addClass('container');
+  //add data attributes
+    $(container).attr('data-closeclick',"true");
+    $(container).attr('data-key', key);
+    $(container).attr('data-depth', String(depth+1));
+  //add it to the parent
+    $(parent).children('.boxes').append( $(container) );
+  // draw its contents
+    $(container).html(
+      '<div class="panel panel-default"></div>'
+    );
+    $(container).children('div.panel').append(
+      '<div class="panel-heading"><h3 class="panel-title"></h3></div>'
+    );
+    $(container).children('div.panel').append(
+      '<div class="panel-body"></div>'
+    );
+    $(container).find('.panel-body').first().append('<div class="pills"></div>')
+    $(container).find('.panel-body').first().append('<div class="boxes"></div>')
 
-  newParent = $(container).find('div.panel-body');
-  $(newParent).html('<div class="pills"></div>')
+    //create newParent for next level of depth
+    newParent = $(container).find('div.panel-body');
+
+  //insert key
+    $(container).find('h3').text(key);
+  //style appropriately
+    $(container).find('.panel').css('border-color', getColor(key));
+  //declare pills class for insertion
+
+  //===================
   
   // Recursively draw contents
   $.each(obj, function (key, val) {
@@ -81,6 +96,7 @@ var renderObj = function (key, obj, parent, depth) {
   });
 
   $.each(pills, renderer(renderPill));
+
   $.each(objs, renderer(renderObj));
 
   // Make pills inline-block iff there are objects in the same box
@@ -138,14 +154,16 @@ $('#visualize').click(function (e) {
   colorIndex = -1; // Reset color index
   assignedColors = {}; // Clear assigned colors
 
-  renderObj('root', json, $('#root'), 0);
+  renderObj('root', json, 1, $('#root'), 0);
   bindFocus();
 });
 
 var focus = $('#root'); //which element is focused on?
 
 //testing purposes
-renderObj('root', sample, $('#root'), 0);
+$('#root').height($('#port').height());
+$('#root').width( $('#port').width() );
+renderObj('root', sample['obj3'], $('#root'), 0);
 bindFocus();
 
 function bindFocus(){
@@ -169,9 +187,7 @@ function bindFocus(){
     var cr = makeCrumbs($(this));
     renderCrumbs(cr);
   });
-
 }
-
 
 
 function getKey(el){
@@ -180,7 +196,8 @@ function getKey(el){
 }
 
 function getParent(el){
-  return el.parent().parent().parent();
+  return el.parent().parent().parent().parent();
+  // each container --> panel --> panel.body --> .boxes --> container
 }
 
 function makeCrumbs(el){
@@ -199,7 +216,7 @@ function renderCrumbs(arr){
   console.log('rendering crumbs');
   $('ol.breadcrumb').empty();
   for(var i = 0; i < arr.length-1; i++){
-    $('ol.breadcrumb').append('<li><a href="#">'+getKey(arr[i])+'</a></li>');
+    $('ol.breadcrumb').append('<li>'+getKey(arr[i])+'</li>');
   }
   // console.log(arr[arr.length-1]);
   $('ol.breadcrumb').append('<li class="active">'+getKey(arr[arr.length-1])+'</li>');
