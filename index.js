@@ -142,11 +142,6 @@ $('#visualize').click(function (e) {
 
 });
 
-//placeholder
-function renderCrumbs(){
-  console.log('rendering crumbs');
-}
-
 var focus = $('#root'); //which element is focused on?
 
 //testing purposes
@@ -155,6 +150,7 @@ renderObj('root', sample['obj3'], $('#root'), 0);
 $('.container').click(function(e){
   e.stopPropagation();
 
+
   $(this).zoomTo({
     root: $('#root'),
     targetsize:0.75, 
@@ -162,5 +158,41 @@ $('.container').click(function(e){
   });
 
   focus = $(this);
-  
+
+  var cr = makeCrumbs($(this));  
+  renderCrumbs(cr);
 });
+
+function getKey(el){
+  // console.log(el);
+  return el.attr('data-key');
+}
+
+function getParent(el){
+  return el.parent().parent().parent();
+}
+
+function makeCrumbs(el){
+  var key = getKey(el);
+  var array = [];
+  while ( key ) {
+    array.push(el);
+    el = getParent(el);
+    key = getKey(el);      
+  }
+  return array.reverse();
+}
+
+//placeholder
+function renderCrumbs(arr){
+  console.log('rendering crumbs');
+  $('ol.breadcrumb').empty();
+  for(var i = 0; i < arr.length-1; i++){
+    $('ol.breadcrumb').append('<li><a href="#">'+getKey(arr[i])+'</a></li>');
+  }
+  // console.log(arr[arr.length-1]);
+  $('ol.breadcrumb').append('<li class="active">'+getKey(arr[arr.length-1])+'</li>');
+}
+
+
+
