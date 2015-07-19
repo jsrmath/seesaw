@@ -13,7 +13,9 @@ var renderPill = function (key, value, parent) {
   $(pill).addClass('pill');
   $(pill).appendTo(parent.find('.pills'));
 
-  $(pill).html('<div class="btn-group" > <button type="button" class="btn btn-info" id="key" >'+key+'</button>  <button type="button" class="btn btn-default" id="value">'+value+'</button> </div>');
+  $(pill).html('<div class="btn-group" > <button type="button" class="btn btn-info key" ></button>  <button type="button" class="btn btn-default value"></button> </div>');
+  $(pill).find('.key').text(key);
+  $(pill).find('.value').text(value);
 };
 
 var renderObj = function (key, obj, parent, depth) {
@@ -43,12 +45,12 @@ var renderObj = function (key, obj, parent, depth) {
 
   // Draw stuff inside container
   $(container).html('<div class="panel panel-default zoomTarget" data-closeclick="true"></div>');
-    $(container).children('div.panel').append('<div class="panel-heading"><h3 class="panel-title"></h3></div>');
-      $(container).find('h3').text(key);
-    $(container).children('div.panel').append('<div class="panel-body"></div>');  
+  $(container).children('div.panel').append('<div class="panel-heading"><h3 class="panel-title"></h3></div>');
+  $(container).children('div.panel').append('<div class="panel-body"></div>');  
 
-  newParent = $(container).find('div.panel-body');
+  $(container).find('h3').text(key);
   
+  newParent = $(container).find('div.panel-body');
   $(newParent).html('<div class="pills"></div>')
 
   
