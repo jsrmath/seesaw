@@ -103,6 +103,7 @@ var renderObj = function (key, obj, parent, depth) {
   if (objs.length) {
     $(newParent).children('.pills').addClass('inline-block');
   }
+
 };
 
 // Add sample elements to dropdown
@@ -164,6 +165,7 @@ var focus = $('#root'); //which element is focused on?
 $('#root').height($('#port').height());
 $('#root').width( $('#port').width() );
 renderObj('root', sample['obj3'], $('#root'), 0);
+
 bindFocus();
 
 function bindFocus(){
