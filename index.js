@@ -13,7 +13,7 @@ var focus = $('#root'); //which element is focused on?
 var getColor = function (key) {
   if (!assignedColors[key]) {
     colorIndex += 1;
-    if (colorIndex === colors.length) colorIndex = -1;
+    if (colorIndex === colors.length) colorIndex = 0;
 
     assignedColors[key] = colors[colorIndex];
   }
