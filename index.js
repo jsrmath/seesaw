@@ -22,6 +22,22 @@ var getColor = function (key) {
 };
 
 var renderPill = function (key, value, parent, depth) {
+
+  // Draw things in here
+  // This should contain newParent
+  var container = document.createElement('div');
+
+  //init container
+  $(container).addClass('container');
+
+  //add data attributes
+  $(container).attr('data-closeclick', 'true');
+  $(container).attr('data-key', key);
+  $(container).attr('data-depth', depth + 1);
+
+  $(container).appendTo(parent.children('.pills'));
+
+
   var pill = document.createElement('div');
   $(pill).addClass('pill');
   $(pill).attr('data-depth', String(depth+1));
@@ -33,7 +49,7 @@ var renderPill = function (key, value, parent, depth) {
   $(pill).find('.pill-key').text(key).css('background-color', getColor(key));
   $(pill).find('.pill-value').text(value);
 
-  $(pill).appendTo(parent.find('.pills'));
+  $(pill).appendTo($(container));
 };
 
 var renderObj = function (key, obj, parent, depth) {
@@ -121,22 +137,38 @@ $.each(sample, function (key) {
 $('body').keyup(function (e) {
   switch (e.keyCode) {
     case 37: // left
-      focus.prev().click();
+      // if there is a previous of the same type,
+      if(focus.prev().length){ 
+        // go there
+        focus.prev().click();
+      } else { 
+        //else, go up a level, move from boxes to pills, and try again
+        focus.parent().prev().children('.container').last().click();
+      }
       // console.log('left');
       break;
     case 39: // right
-      focus.next().click();
+      //if there is a next of the same type,
+      if(focus.next().length){
+        //go there 
+        focus.next().click(); 
+      } else { 
+        //else go up a level, move from pills to boxes, and try again
+        focus.parent().next().children('.container').first().click();
+      }
       // console.log('right');
       break;
     case 38: // up
-      focus.parent().parent().parent().click();
+      focus.parent().parent().parent().click(); //nested three deep
       // console.log('up');
       break;
     case 40: // down
-      focus.find('.container').first().click();
+      //find the first container within
+      focus.find('.container').first().click(); 
       // console.log('down');
       break;
     case 16: // shift
+      // in lieu of escape, go home
       $('#root > .container').click();
       // console.log('shift');
       break;
