@@ -1,2 +1,2 @@
-# json-visualizer
+# seesaw
 A responsive JSON visualizer
