@@ -24,9 +24,9 @@ var renderPill = function (key, value, parent, depth) {
   $(pill).addClass('pill');
   $(pill).attr('data-depth', String(depth+1));
 
-  $(pill).html('<div class="pill-group"><div class="pill key"></div><div class="pill value"></div></div>');
-  $(pill).find('.key').text(key).css('background-color', getColor(key));
-  $(pill).find('.value').text(value);
+  $(pill).html('<div class="pill-key"></div><div class="pill-value"></div>');
+  $(pill).find('.pill-key').text(key).css('background-color', getColor(key));
+  $(pill).find('.pill-value').text(value);
 
   $(pill).appendTo(parent.find('.pills'));
 };
@@ -59,7 +59,7 @@ var renderObj = function (key, obj, parent, depth) {
   //add data attributes
   $(container).attr('data-closeclick',"true");
   $(container).attr('data-key', key);
-  $(container).attr('data-depth', String(depth+1));
+  $(container).attr('data-depth', depth + 1);
 
   //add it to the parent
   $(parent).children('.boxes').append( $(container) );
@@ -76,8 +76,8 @@ var renderObj = function (key, obj, parent, depth) {
   );
 
   //declare sub-.panel-body classes
-  $(container).find('.panel-body').first().append('<div class="pills"></div>')
-  $(container).find('.panel-body').first().append('<div class="boxes"></div>')
+  $(container).find('.panel-body').first().append('<div class="pills"></div>');
+  $(container).find('.panel-body').first().append('<div class="boxes"></div>');
 
   //create newParent for next level of depth
   newParent = $(container).find('div.panel-body');

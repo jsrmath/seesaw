@@ -10,23 +10,37 @@ div {
   padding: .25em;
 }
 
+div.pills {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 div.pill {
-  position: relative;
+  display: block !important;
+  margin-right: 15px;
+  margin-left: -1px; /* Don't ask me why, but it works */
+  padding-left: 0px;
+  clear: both;
+}
+
+div.pill-key, div.pill-value {
   float: left;
+  position: relative;
   font-size: 14px;
   font-weight: 400;
   text-align: center;
   border-radius: 4px;
 }
 
-div.pill.key {
+div.pill-key {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   color: white;
   padding: 6px 12px;
+  margin-bottom: 10px;
 }
 
-div.pill.value {
+div.pill-value {
   max-width:80%;
   text-overflow: ellipsis;
   border-top-left-radius: 0px;
@@ -37,18 +51,15 @@ div.pill.value {
 
 div.pills {
   display: block;
-  vertical-align:top;
 }
-div.boxes{
+
+div.boxes {
   height:100%;
 }
 
 div.pills.inline-block div.pill {
   display: inline-block !important;
-}
-
-div.pills.inline-block div.pill.value {
-  margin-right:10px;
+  margin-bottom: 0;
 }
 
 div.container {
@@ -105,22 +116,7 @@ footer {
   bottom:0px; left:0px; /*for instructions*/
   z-index:5;
 }
-.pill button.key:hover{
-  color:white;
-  border:none;
-}
-.pill button.key{
-  border:none;
-}
-.pill button.value:hover{
-  color:black;
-  background: #eee;
-  border: none;
-}
-.pill button.value{
-  background: #eee;
-  border:none;
-}
+
 #port {
   /*background: white;*/
   /*height:100%;*/
