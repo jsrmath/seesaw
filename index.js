@@ -1,12 +1,14 @@
 // index.js
 // Backend for json-visualizer
-// Dependencies: jquery
+// Dependencies: jquery, jquery.zoomooz
 
 var colors = ['#616161', '#FF9800', '#03A9F4', '#0097A7', '#FF5252', '#512DA8', '#388E3C', '#607D8B', '#E64A19', '#C2185B', '#1976D2', '#009688', '#795548', '#536DFE']
 var colorIndex = -1;
 
 // Keep track of which colors have been assigned to which keys
 var assignedColors = {};
+
+var focus = $('#root'); //which element is focused on?
 
 var getColor = function (key) {
   if (!assignedColors[key]) {
@@ -47,8 +49,6 @@ var renderObj = function (key, obj, parent, depth) {
     };
   };
 
-  //===================
-
   // Draw things in here
   // This should contain newParent
   var container = document.createElement('div');
@@ -57,12 +57,12 @@ var renderObj = function (key, obj, parent, depth) {
   $(container).addClass('container');
 
   //add data attributes
-  $(container).attr('data-closeclick',"true");
+  $(container).attr('data-closeclick', 'true');
   $(container).attr('data-key', key);
   $(container).attr('data-depth', depth + 1);
 
   //add it to the parent
-  $(parent).children('.boxes').append( $(container) );
+  $(parent).children('.boxes').append(container);
 
   // draw its contents
   $(container).html(
@@ -135,7 +135,7 @@ $('body').keyup(function (e) {
       break;
     case 16: // shift
       $('#root > .container').click();
-      // console.log('esc');
+      // console.log('shift');
       break;
   }
 });
@@ -162,8 +162,6 @@ $('#visualize').click(function (e) {
   bindFocus();
 });
 
-var focus = $('#root'); //which element is focused on?
-
 //testing purposes
 $('#root').height($('#port').height());
 $('#root').width($('#port').width());
@@ -171,10 +169,10 @@ renderObj('root', sample['obj3'], $('#root'), 0);
 
 bindFocus();
 
-function bindFocus(){
+function bindFocus() {
   //focus on a container
   $('.container').unbind();
-  $('.container').click(function(e){
+  $('.container').click(function(e) {
     e.stopPropagation();
 
     $(this).zoomTo({
@@ -187,7 +185,7 @@ function bindFocus(){
 
     focus = $(this);
 
-    $(focus).find('.panel').first().css('box-shadow', String('0px 0px 5px 5px '+getColor(getKey(focus))));
+    $(focus).find('.panel').first().css('box-shadow', '0px 0px 5px 5px ' + getColor(getKey(focus)));
 
     var cr = makeCrumbs($(this));
     renderCrumbs(cr);
@@ -195,20 +193,20 @@ function bindFocus(){
 }
 
 
-function getKey(el){
+var getKey = function (el) {
   // console.log(el);
   return el.attr('data-key');
 }
 
-function getParent(el){
+var getParent = function (el) {
   return el.parent().parent().parent().parent();
   // each container --> panel --> panel.body --> .boxes --> container
 }
 
-function makeCrumbs(el){
+var makeCrumbs = function (el) {
   var key = getKey(el);
   var array = [];
-  while ( key ) {
+  while (key) {
     array.push(el);
     el = getParent(el);
     key = getKey(el);      
@@ -217,14 +215,13 @@ function makeCrumbs(el){
 }
 
 //placeholder
-function renderCrumbs(arr){
+var renderCrumbs = function (arr) {
   console.log('rendering crumbs');
   $('ol.breadcrumb').empty();
-  for(var i = 0; i < arr.length-1; i++){
-    $('ol.breadcrumb').append('<li>'+getKey(arr[i])+'</li>');
-  }
-  // console.log(arr[arr.length-1]);
-  $('ol.breadcrumb').append('<li class="active">'+getKey(arr[arr.length-1])+'</li>');
+  $.each(arr, function (i, e) {
+    $('ol.breadcrumb').append('<li>' + getKey(e) + '</li>');
+  });
+  $('ol.breadcrumb').find('li:last').addClass('active');
 }
 
 
