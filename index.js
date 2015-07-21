@@ -22,22 +22,6 @@ var getColor = function (key) {
 };
 
 var renderPill = function (key, value, parent, depth) {
-
-  // Draw things in here
-  // This should contain newParent
-  var container = document.createElement('div');
-
-  //init container
-  $(container).addClass('container');
-
-  //add data attributes
-  $(container).attr('data-closeclick', 'true');
-  $(container).attr('data-key', key);
-  $(container).attr('data-depth', depth + 1);
-
-  $(container).appendTo(parent.children('.pills'));
-
-
   var pill = document.createElement('div');
   $(pill).addClass('pill');
   $(pill).attr('data-depth', String(depth+1));
@@ -49,7 +33,7 @@ var renderPill = function (key, value, parent, depth) {
   $(pill).find('.pill-key').text(key).css('background-color', getColor(key));
   $(pill).find('.pill-value').text(value);
 
-  $(pill).appendTo($(container));
+  $(pill).appendTo(parent.find('.pills .container'));
 };
 
 var renderObj = function (key, obj, parent, depth) {
@@ -72,8 +56,11 @@ var renderObj = function (key, obj, parent, depth) {
   // This should contain newParent
   var container = document.createElement('div');
 
+  // <div class="pills"></div>
+  var pillsObj;
+
   //init container
-  $(container).addClass('container');
+  $(container).addClass('container zoomable');
 
   //add data attributes
   $(container).attr('data-closeclick', 'true');
@@ -95,7 +82,7 @@ var renderObj = function (key, obj, parent, depth) {
   );
 
   //declare sub-.panel-body classes
-  $(container).find('.panel-body').first().append('<div class="pills"></div>');
+  $(container).find('.panel-body').first().append('<div class="pills"><div class="container"></div></div>');
   $(container).find('.panel-body').first().append('<div class="boxes"></div>');
 
   //create newParent for next level of depth
@@ -116,6 +103,16 @@ var renderObj = function (key, obj, parent, depth) {
       pills.push(key);
     }
   });
+
+  // make .pills zoomable
+  if (pills.length) {
+    pillsObj = $(container).find('.pills');
+    pillsObj.find('.container').addClass('zoomable');
+    pillsObj.find('.container').attr('data-key', ' ');
+    pillsObj.attr('data-closeclick', 'true');
+    pillsObj.attr('data-key', key);
+    pillsObj.attr('data-depth', depth + 2);
+  }
 
   //recursively render contents
   $.each(pills, renderer(renderPill));
@@ -143,7 +140,7 @@ $('body').keyup(function (e) {
         focus.prev().click();
       } else { 
         //else, go up a level, move from boxes to pills, and try again
-        focus.parent().prev().children('.container').last().click();
+        focus.parent().prev().children('.zoomable').last().click();
       }
       // console.log('left');
       break;
@@ -154,7 +151,7 @@ $('body').keyup(function (e) {
         focus.next().click(); 
       } else { 
         //else go up a level, move from pills to boxes, and try again
-        focus.parent().next().children('.container').first().click();
+        focus.parent().next().children('.zoomable').first().click();
       }
       // console.log('right');
       break;
@@ -164,12 +161,13 @@ $('body').keyup(function (e) {
       break;
     case 40: // down
       //find the first container within
-      focus.find('.container').first().click(); 
+      console.log(focus.find('.zoomable').first);
+      focus.find('.zoomable').first().click(); 
       // console.log('down');
       break;
     case 16: // shift
       // in lieu of escape, go home
-      $('#root > .container').click();
+      $('#root > .zoomable').click();
       // console.log('shift');
       break;
   }
@@ -205,9 +203,9 @@ renderObj('root', sample['obj3'], $('#root'), 0);
 bindFocus();
 
 function bindFocus() {
-  //focus on a container
-  $('.container').unbind();
-  $('.container').click(function(e) {
+  //focus on a zoomable object
+  $('.zoomable').unbind();
+  $('.zoomable').click(function(e) {
     e.stopPropagation();
 
     $(this).zoomTo({

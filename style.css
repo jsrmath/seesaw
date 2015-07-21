@@ -11,14 +11,12 @@ div {
 }
 
 div.pills {
-  padding-left: 15px;
   padding-right: 15px;
 }
 
 div.pill {
   display: block !important;
   margin-right: 15px;
-  margin-left: -1px; /* Don't ask me why, but it works */
   padding-left: 0px;
   clear: both;
 }
