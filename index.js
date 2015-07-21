@@ -131,7 +131,7 @@ $.each(sample, function (key) {
 });
 
 //when a keystroke is triggered, navigate the tree
-$('body').keyup(function (e) {
+$(document).keyup(function (e) {
   switch (e.keyCode) {
     case 37: // left
       // if there is a previous of the same type,
@@ -142,7 +142,6 @@ $('body').keyup(function (e) {
         //else, go up a level, move from boxes to pills, and try again
         focus.parent().prev().children('.zoomable').last().click();
       }
-      // console.log('left');
       break;
     case 39: // right
       //if there is a next of the same type,
@@ -153,22 +152,17 @@ $('body').keyup(function (e) {
         //else go up a level, move from pills to boxes, and try again
         focus.parent().next().children('.zoomable').first().click();
       }
-      // console.log('right');
       break;
     case 38: // up
       focus.parent().parent().parent().click(); //nested three deep
-      // console.log('up');
       break;
     case 40: // down
       //find the first container within
-      console.log(focus.find('.zoomable').first);
       focus.find('.zoomable').first().click(); 
-      // console.log('down');
       break;
-    case 16: // shift
-      // in lieu of escape, go home
-      $('#root > .zoomable').click();
-      // console.log('shift');
+    case 32: // space
+      // get out of zoom mode
+      $('#root .zoomable').first().click();
       break;
   }
 });
@@ -190,28 +184,52 @@ $('#visualize').click(function (e) {
   $('select').val(''); // Clear dropdown
   colorIndex = -1; // Reset color index
   assignedColors = {}; // Clear assigned colors
+  focus = $('#root');
 
   renderObj('root', json, $('#root'), 0);
   bindFocus();
 });
 
-//testing purposes
-$('#root').height($('#port').height());
-$('#root').width($('#port').width());
-renderObj('root', sample['obj3'], $('#root'), 0);
+var getKey = function (el) {
+  // console.log(el);
+  return el.attr('data-key');
+};
 
-bindFocus();
+var getParent = function (el) {
+  return el.parent().parent().parent().parent();
+  // each container --> panel --> panel.body --> .boxes --> container
+};
 
-function bindFocus() {
+var makeCrumbs = function (el) {
+  var key = getKey(el);
+  var array = [];
+  while (key) {
+    array.push(el);
+    el = getParent(el);
+    key = getKey(el);      
+  }
+  return array.reverse();
+};
+
+//placeholder
+var renderCrumbs = function (arr) {
+  $('ol.breadcrumb').empty();
+  $.each(arr, function (i, e) {
+    $('ol.breadcrumb').append('<li>' + getKey(e) + '</li>');
+  });
+  $('ol.breadcrumb').find('li:last').addClass('active');
+};
+
+var bindFocus = function () {
   //focus on a zoomable object
   $('.zoomable').unbind();
   $('.zoomable').click(function(e) {
     e.stopPropagation();
-
+    
     $(this).zoomTo({
       root: $('#root'),
-      targetsize:0.75, 
-      duration:600
+      targetsize: 0.75, 
+      duration: 600
     });
 
     $(focus).find('.panel').first().css('box-shadow', 'none');
@@ -223,39 +241,11 @@ function bindFocus() {
     var cr = makeCrumbs($(this));
     renderCrumbs(cr);
   });
-}
+};
 
+//testing purposes
+$('#root').height($('#port').height());
+$('#root').width($('#port').width());
+renderObj('root', sample['obj3'], $('#root'), 0);
 
-var getKey = function (el) {
-  // console.log(el);
-  return el.attr('data-key');
-}
-
-var getParent = function (el) {
-  return el.parent().parent().parent().parent();
-  // each container --> panel --> panel.body --> .boxes --> container
-}
-
-var makeCrumbs = function (el) {
-  var key = getKey(el);
-  var array = [];
-  while (key) {
-    array.push(el);
-    el = getParent(el);
-    key = getKey(el);      
-  }
-  return array.reverse();
-}
-
-//placeholder
-var renderCrumbs = function (arr) {
-  console.log('rendering crumbs');
-  $('ol.breadcrumb').empty();
-  $.each(arr, function (i, e) {
-    $('ol.breadcrumb').append('<li>' + getKey(e) + '</li>');
-  });
-  $('ol.breadcrumb').find('li:last').addClass('active');
-}
-
-
-
+bindFocus();
